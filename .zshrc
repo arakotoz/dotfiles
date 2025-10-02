@@ -296,7 +296,7 @@ function setup-alias() {
     alias scp='scp -p'
     alias wget='curl -O'
     # alias which='which -a'
-    unalias grep
+    # unalias grep
     alias grep='grep --color=auto'
 
     alias tmuxk='tmux kill-session -t'
