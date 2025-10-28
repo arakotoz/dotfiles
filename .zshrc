@@ -427,7 +427,7 @@ function setup-root() {
 	echo "Setting ROOT soft with ** requested ** $ROOT_VERSION version"
     else
 	#export ROOT_VERSION=master
-	export ROOT_VERSION=v6-36-02
+	export ROOT_VERSION=v6-36-04
 	echo "Setting ROOT soft with default $ROOT_VERSION version"
     fi
 
@@ -545,7 +545,7 @@ function go-o2-rc() {
     export ALIBUILD_WORK_DIR=/Users/andry/alice/sw
     unset MODULES_SHELL
     export MODULES_SHELL=zsh
-    alienv enter O2Physics/latest-ar-daily-20250805-0000-o2 --work-dir ${ALIBUILD_WORK_DIR}  ## comment to use the latest rc
+    alienv enter O2Physics/latest-ar-daily-20250909-0000-o2 --work-dir ${ALIBUILD_WORK_DIR}  ## comment to use the latest rc
 }
 
 
