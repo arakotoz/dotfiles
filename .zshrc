@@ -79,10 +79,10 @@ HIST_STAMPS="%Y.%m.%d-%H:%M"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    git
-    colored-man-pages
-    colorize
-    macos
+  git
+  colored-man-pages
+  colorize
+  macos
 )
 
 # offer a reminder every few days, if there are updates available
@@ -117,73 +117,73 @@ source $ZSH/oh-my-zsh.sh
 #-------------------------------------------- Prerequisites ------------#
 
 function fresh-shell() {
-    
-    unset PATH
-    unset LD_LIBRARY_PATH
-    unset DYLD_LIBRARY_PATH
-    unset PYTHONPATH
-    unset XROOTD_DIR
 
-    ## ---> Generic path
+  unset PATH
+  unset LD_LIBRARY_PATH
+  unset DYLD_LIBRARY_PATH
+  unset PYTHONPATH
+  unset XROOTD_DIR
 
-    export PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
-    eval "$(/opt/homebrew/bin/brew shellenv)"
+  ## ---> Generic path
 
-    ## ---> add git shell script to path
+  export PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 
-    # export PATH=/usr/local/share/git-core/contrib/workdir/:$PATH
+  ## ---> add git shell script to path
 
-    # ---> add latex binaries to path
+  # export PATH=/usr/local/share/git-core/contrib/workdir/:$PATH
 
-    export MIKTEX_BINARY_PATH=/Library/TeX/texbin
-    export PATH=$MIKTEX_BINARY_PATH:$PATH
+  # ---> add latex binaries to path
 
-    ## ---> add Visual Studio Code (code)
+  export MIKTEX_BINARY_PATH=/Library/TeX/texbin
+  export PATH=$MIKTEX_BINARY_PATH:$PATH
 
-    export PATH=$PATH:"/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+  ## ---> add Visual Studio Code (code)
 
-    ## ---> Generic library
-    
-    LD_LIBRARY_PATH=$(brew --prefix)/lib:/usr/local/lib:/usr/lib
-    export LD_LIBRARY_PATH
+  export PATH=$PATH:"/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
-    ## ---> BOOST environment variables for CMake
+  ## ---> Generic library
+  
+  LD_LIBRARY_PATH=$(brew --prefix)/lib:/usr/local/lib:/usr/lib
+  export LD_LIBRARY_PATH
 
-    unset BOOST_ROOT
-    unset BOOST_INCLUDEDIR
-    unset BOOST_LIBRARYDIR
-    BOOST_ROOT=$(brew --prefix boost)
-    export BOOST_INCLUDEDIR=${BOOST_ROOT}/include/boost/
-    export BOOST_LIBRARYDIR=${BOOST_ROOT}/lib/
+  ## ---> BOOST environment variables for CMake
+
+  unset BOOST_ROOT
+  unset BOOST_INCLUDEDIR
+  unset BOOST_LIBRARYDIR
+  BOOST_ROOT=$(brew --prefix boost)
+  export BOOST_INCLUDEDIR=${BOOST_ROOT}/include/boost/
+  export BOOST_LIBRARYDIR=${BOOST_ROOT}/lib/
 
 
-    ## ---> used to manage virtual environments in python (installed via homebrew)
+  ## ---> used to manage virtual environments in python (installed via homebrew)
 
-    eval "$(pyenv init --path)"
-    eval "$(pyenv init -)"
+  eval "$(pyenv init --path)"
+  eval "$(pyenv init -)"
 
-    export WORKON_HOME=$HOME/.virtualenvs
-    pyenv virtualenvwrapper_lazy
+  export WORKON_HOME=$HOME/.virtualenvs
+  pyenv virtualenvwrapper_lazy
 
-    #unset VIRTUALENVWRAPPER_PYTHON
-    #export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
-    #export WORKON_HOME=$HOME/.virtualenvs
-    #source /usr/local/bin/virtualenvwrapper.sh
+  #unset VIRTUALENVWRAPPER_PYTHON
+  #export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
+  #export WORKON_HOME=$HOME/.virtualenvs
+  #source /usr/local/bin/virtualenvwrapper.sh
 
-    ## ---> add Rust
+  ## ---> add Rust
 
-    . "$HOME/.cargo/env"
+  . "$HOME/.cargo/env"
 
-    ## ---> empties the command hash table, so that finding commands starts again from scratch
-    rehash
+  ## ---> empties the command hash table, so that finding commands starts again from scratch
+  rehash
 
-    ## ---> activate zsh-completions installed with brew
+  ## ---> activate zsh-completions installed with brew
 
-    if type brew &>/dev/null; then
-      FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-      autoload -Uz compinit
-      compinit
-    fi
+  if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+    autoload -Uz compinit
+    compinit
+  fi
 
 }
 
@@ -194,43 +194,43 @@ fresh-shell
 
 function setup-utilities() {
 
-    ## ---> set path to gs for gimp
+  ## ---> set path to gs for gimp
 
-    unset GS_PROG
-    GS_PROG=$(brew --prefix)/bin/gs
-    export GS_PROG
+  unset GS_PROG
+  GS_PROG=$(brew --prefix)/bin/gs
+  export GS_PROG
 
-    ## ---> aquamacs editor
+  ## ---> aquamacs editor
 
-    alias aquamacs='open -b org.gnu.Aquamacs'
-    export EDITOR=/Applications/Aquamacs.app/Contents/MacOS/bin/aquamacs
+  alias aquamacs='open -b org.gnu.Aquamacs'
+  export EDITOR=/Applications/Aquamacs.app/Contents/MacOS/bin/aquamacs
 
-    ## ---> java
+  ## ---> java
 
-    export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-24.jdk/Contents/Home/
+  export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-24.jdk/Contents/Home/
 }
 
 setup-utilities
 
 function setup-openssl() {
 
-    ## --> add openssl to path
+  ## --> add openssl to path
 
-    export PATH=$(brew --prefix openssl@3)/bin:${PATH}
+  export PATH=$(brew --prefix openssl@3)/bin:${PATH}
 }
 
 function setup-old-openssl() {
 
-    ## --> add openssl to path
+  ## --> add openssl to path
 
-    export PATH=$(brew --prefix openssl@1.1)/bin:${PATH}
+  export PATH=$(brew --prefix openssl@1.1)/bin:${PATH}
 }
 
 function setup-php() {
-    ## ---> to start php now and restart at login
-    brew services start php 
-    # Or, if you don't want/need a background service you can just run:
-    # /usr/local/opt/php/sbin/php-fpm --nodaemonize
+  ## ---> to start php now and restart at login
+  brew services start php 
+  # Or, if you don't want/need a background service you can just run:
+  # /usr/local/opt/php/sbin/php-fpm --nodaemonize
 }
 
 ##---------------------------------- CUSTOMIZE ENVIRONMENT ------------#
@@ -242,13 +242,13 @@ function setup-php() {
 
 if [[ -z $DISPLAY && -z $SSH_CONNECTION ]]; then
 #    disp_no=($( ps -awx | grep -F X11.app | awk '{print $NF}' | grep -e ":[0-9]"  ))
-    disp_no=($( ps -awx | grep -F XQuartz.app | awk '{print $NF}' | grep -e ":[0-9]"  ))
-    if [[ -n $disp_no ]];then
-        export DISPLAY=${disp_no}.0
-    else
-        export DISPLAY=:0.0
-    fi
-    echo "DISPLAY has been set to $DISPLAY"
+  disp_no=($( ps -awx | grep -F XQuartz.app | awk '{print $NF}' | grep -e ":[0-9]"  ))
+  if [[ -n $disp_no ]]; then
+    export DISPLAY=${disp_no}.0
+  else
+    export DISPLAY=:0.0
+  fi
+  echo "DISPLAY has been set to $DISPLAY"
 fi
 
 ##---------------------------------------
@@ -257,100 +257,100 @@ fi
 
 function setup-alias() {
 
-    ##-------------
-    ## use colors
-    ##-------------
+  ##-------------
+  ## use colors
+  ##-------------
 
-    export TERM=xterm-256color
+  export TERM=xterm-256color
 
-    ## customize BSD 'ls' colors 
+  ## customize BSD 'ls' colors 
 
-#    export LSCOLORS=exGxfxdaCxdadaCxcxeCed # custom colors
+  # export LSCOLORS=exGxfxdaCxdadaCxcxeCed # custom colors
 
-    ## customize GNU coreutils 'ls' colors
+  ## customize GNU coreutils 'ls' colors
 
-#    export LS_OPTIONS='-G'
-    # if [ "$TERM" != "dumb" ]; then
-    #     # export LS_OPTIONS='--color=auto'
-    #     eval `dircolors ~/.dir_colors`
-    # fi
-    # echo
+  # export LS_OPTIONS='-G'
+  # if [ "$TERM" != "dumb" ]; then
+  #   # export LS_OPTIONS='--color=auto'
+  #     eval `dircolors ~/.dir_colors`
+  # fi
+  # echo
 
-    ##---------------------------
-    ## my aliases (environment)
-    ##---------------------------
+  ##---------------------------
+  ## my aliases (environment)
+  ##---------------------------
 
-    #    alias ls='ls $LS_OPTIONS'
-    alias ls='ls -G'
-    alias lf='ls -F'
-    alias lh='ls -llhtr'
-    alias la='ls -a'
-    alias lla='ls -llhtra'
-    alias less='less -r'
-    alias cp='cp -ip'
-    alias diff='diff -b'
-    alias df='df -h'
-    alias du='du -h'
-    alias mv='mv -i'
-    alias mkdir='mkdir -p'
-    alias scp='scp -p'
-    alias wget='curl -O'
-    # alias which='which -a'
-    # unalias grep
-    alias grep='grep --color=auto'
+  #    alias ls='ls $LS_OPTIONS'
+  alias ls='ls -G'
+  alias lf='ls -F'
+  alias lh='ls -llhtr'
+  alias la='ls -a'
+  alias lla='ls -llhtra'
+  alias less='less -r'
+  alias cp='cp -ip'
+  alias diff='diff -b'
+  alias df='df -h'
+  alias du='du -h'
+  alias mv='mv -i'
+  alias mkdir='mkdir -p'
+  alias scp='scp -p'
+  alias wget='curl -O'
+  # alias which='which -a'
+  # unalias grep
+  alias grep='grep --color=auto'
 
-    alias tmuxk='tmux kill-session -t'
-    alias tmuxa='tmux attach -t'
-    alias tmuxl='tmux list-sessions'
-    alias tmuxn='tmux new -s'
+  alias tmuxk='tmux kill-session -t'
+  alias tmuxa='tmux attach -t'
+  alias tmuxl='tmux list-sessions'
+  alias tmuxn='tmux new -s'
 
-    ## ---> Set up fzf key bindings and fuzzy completion
-    source <(fzf --zsh)
+  ## ---> Set up fzf key bindings and fuzzy completion
+  source <(fzf --zsh)
 
-    ## ---> alias to use instead of regular git
-    ##      when interacting with dotfiles repository
-    alias dotcfg="/opt/homebrew/bin/git --git-dir=${HOME}/.dotfiles --work-tree=${HOME}"
+  ## ---> alias to use instead of regular git
+  ##      when interacting with dotfiles repository
+  alias dotcfg="/opt/homebrew/bin/git --git-dir=${HOME}/.dotfiles --work-tree=${HOME}"
 
-    ## ---------------------------
-    ## tunnels vers intra ou extra
-    ## ---------------------------
-    
-    ## not working any more
-    # alias to-intra='sudo openfortivpn 132.167.192.58:443 --trusted-cert 7b82074aedb7e7ecaa4e4d4957ee65c08655e684fbdd1eca51d115e43da6b257 --pppd-use-peerdns=1 -u ar218432'
-    # alias to-intra='sudo openfortivpn 132.167.192.58:443 --trusted-cert 479b69e94d5af7e87d2330cf3d8899c03d9ee48146ca08262a759476308cc015 --pppd-use-peerdns=1 -u ar218432'
-    #
-    # alias to-extra='sudo openfortivpn 132.167.192.210:443 --trusted-cert 42483bb9b70c8d3110ec349ccfffbca0e4248f0d3a76d1ef10cd8c7ff1be338b --pppd-use-peerdns=1 -u arakotoz@extra.cea.fr'
-    # alias to-extra='sudo openfortivpn 132.167.192.210:443 --trusted-cert 4994f90040b395325402f4e8be23b2089998c2a1f98db9524ee92b760a4b0092:q --pppd-use-peerdns=1 -u arakotoz@extra.cea.fr'
+  ## ---------------------------
+  ## tunnels vers intra ou extra
+  ## ---------------------------
+  
+  ## not working any more
+  # alias to-intra='sudo openfortivpn 132.167.192.58:443 --trusted-cert 7b82074aedb7e7ecaa4e4d4957ee65c08655e684fbdd1eca51d115e43da6b257 --pppd-use-peerdns=1 -u ar218432'
+  # alias to-intra='sudo openfortivpn 132.167.192.58:443 --trusted-cert 479b69e94d5af7e87d2330cf3d8899c03d9ee48146ca08262a759476308cc015 --pppd-use-peerdns=1 -u ar218432'
+  #
+  # alias to-extra='sudo openfortivpn 132.167.192.210:443 --trusted-cert 42483bb9b70c8d3110ec349ccfffbca0e4248f0d3a76d1ef10cd8c7ff1be338b --pppd-use-peerdns=1 -u arakotoz@extra.cea.fr'
+  # alias to-extra='sudo openfortivpn 132.167.192.210:443 --trusted-cert 4994f90040b395325402f4e8be23b2089998c2a1f98db9524ee92b760a4b0092:q --pppd-use-peerdns=1 -u arakotoz@extra.cea.fr'
 
-    ## ---> getting AFS tokens
+  ## ---> getting AFS tokens
 
-    # alias kccf='klog andryr -cell in2p3.fr'
-    # alias kcea='klog arakotoz -cell dapnia.saclay.cea.fr'
-    alias kcern='kinit arakotoz@CERN.CH'
+  # alias kccf='klog andryr -cell in2p3.fr'
+  # alias kcea='klog arakotoz -cell dapnia.saclay.cea.fr'
+  alias kcern='kinit arakotoz@CERN.CH'
 
-    ## ---> shortcuts for log in various computer facilities
+  ## ---> shortcuts for log in various computer facilities
 
-    alias sdapint='ssh -Y dapint'
-    alias siclust='ssh -Y iclust'
+  alias sdapint='ssh -Y dapint'
+  alias siclust='ssh -Y iclust'
 
-    ## ---> command to change the offline version
+  ## ---> command to change the offline version
 
-    #alias mysoft='source /Users/andry/dev_area/usr_sh/set_mysoft.sh'
-    #alias myroot='source /Users/andry/dev_area/usr_sh/set_myroot.sh'
+  #alias mysoft='source /Users/andry/dev_area/usr_sh/set_mysoft.sh'
+  #alias myroot='source /Users/andry/dev_area/usr_sh/set_myroot.sh'
 
-    ## ---> command to know the available offline versions
+  ## ---> command to know the available offline versions
 
-    alias rootsoft='ls ~/dev_area/root/ | grep v6; ls ~/dev_area/root/ | grep master;'
+  alias rootsoft='ls ~/dev_area/root/ | grep v6; ls ~/dev_area/root/ | grep master;'
 
-    ## ---> command to load the proper environment for alien
+  ## ---> command to load the proper environment for alien
 
-    # alias gclient='source /Users/andry/dev_area/usr_sh/alienroot.sh'
+  # alias gclient='source /Users/andry/dev_area/usr_sh/alienroot.sh'
 
-    ##--------------------------------
-    ## my shortcuts to AFS directories
-    ##--------------------------------
+  ##--------------------------------
+  ## my shortcuts to AFS directories
+  ##--------------------------------
 
-    export AFSCCF=/afs/in2p3.fr/home/a/andryr
+  export AFSCCF=/afs/in2p3.fr/home/a/andryr
 }
 
 setup-alias
@@ -390,98 +390,98 @@ setup-alias
 
 
 function setup-fidle-env() {
-    TEST_PYTHON_VENV="$(which python)"
-	VENV_PYTHON_VERSION=3.12.11
-    if [[ "${TEST_PYTHON_VENV}" == *"fidle-${VENV_PYTHON_VERSION}"* ]]; then
-	    echo "Already using Python virtual env: fidle-${VENV_PYTHON_VERSION}"
-    else
-	    if [[ "${TEST_PYTHON_VENV}" == *".virtualenvs"* ]]; then
-	        deactivate
-	    fi
-	    workon fidle-${VENV_PYTHON_VERSION}
-        echo "Switching to Python virtual env: fidle-${VENV_PYTHON_VERSION}"
+  TEST_PYTHON_VENV="$(which python)"
+  VENV_PYTHON_VERSION=3.12.11
+  if [[ "${TEST_PYTHON_VENV}" == *"fidle-${VENV_PYTHON_VERSION}"* ]]; then
+    echo "Already using Python virtual env: fidle-${VENV_PYTHON_VERSION}"
+  else
+    if [[ "${TEST_PYTHON_VENV}" == *".virtualenvs"* ]]; then
+        deactivate
     fi
-    echo
+    workon fidle-${VENV_PYTHON_VERSION}
+      echo "Switching to Python virtual env: fidle-${VENV_PYTHON_VERSION}"
+  fi
+  echo
 }    
 
 function setup-xrootd() {
-    setup-fidle-env
-    ## --> add manually compiled xrootd python bindings to path
-    export XROOTD_DIR=/usr/local/xrootd
-    export PATH=${XROOTD_DIR}/bin:${PATH}
-    export LD_LIBRARY_PATH=${XROOTD_DIR}/lib:${LD_LIBRARY_PATH}    
-    export PYTHONPATH=${XROOTD_DIR}/lib/python3.12/site-packages:$PYTHONPATH
+  setup-fidle-env
+  ## --> add manually compiled xrootd python bindings to path
+  export XROOTD_DIR=/usr/local/xrootd
+  export PATH=${XROOTD_DIR}/bin:${PATH}
+  export LD_LIBRARY_PATH=${XROOTD_DIR}/lib:${LD_LIBRARY_PATH}    
+  export PYTHONPATH=${XROOTD_DIR}/lib/python3.12/site-packages:$PYTHONPATH
 }
 
 function setup-root() {
 
-    setup-fidle-env
-    setup-xrootd
-    PATH=$(brew --prefix openssl@3)/bin:${PATH}
-    export PATH
+  setup-fidle-env
+  setup-xrootd
+  PATH=$(brew --prefix openssl@3)/bin:${PATH}
+  export PATH
 
-    ## ---> choose version
-    
-    if [ -n "$1" ]; then
-	export ROOT_VERSION=$1
-	echo "Setting ROOT soft with ** requested ** $ROOT_VERSION version"
-    else
-	#export ROOT_VERSION=master
-	export ROOT_VERSION=v6-36-04
-	echo "Setting ROOT soft with default $ROOT_VERSION version"
-    fi
+  ## ---> choose version
+  
+  if [ -n "$1" ]; then
+    export ROOT_VERSION=$1
+    echo "Setting ROOT soft with ** requested ** $ROOT_VERSION version"
+  else
+    #exportlh /Users/andry/Library/CloudStorage/ProtonDrive-andrymalala@proton.me-folder ROOT_VERSION=master
+    export ROOT_VERSION=v6-36-04
+    echo "Setting ROOT soft with default $ROOT_VERSION version"
+  fi
 
-    ## ---> choose where is the needed soft
+  ## ---> choose where is the needed soft
 
-    unset OFFLINE
-    export OFFLINE=/Users/andry/dev_area/root/$ROOT_VERSION
-    if [ -d "$OFFLINE" ]; then
-	echo '$OFFLINE = '$OFFLINE
-    else
-	echo 'Could not find $OFFLINE = '$OFFLINE " => Exiting"
-	return
-    fi
+  unset OFFLINE
+  export OFFLINE=/Users/andry/dev_area/root/$ROOT_VERSION
+  if [ -d "$OFFLINE" ]; then
+    echo '$OFFLINE = '$OFFLINE
+  else
+    echo 'Could not find $OFFLINE = '$OFFLINE " => Exiting"
+    return
+  fi
 
-    ## ---> set GEANT 4 environment
-    
-    # source /usr/local/opt/geant/bin/geant4.sh
+  ## ---> set GEANT 4 environment
+  
+  # source /usr/local/opt/geant/bin/geant4.sh
 
-    ## ---> add root binaries to path
+  ## ---> add root binaries to path
 
-    unset ROOTSYS
+  unset ROOTSYS
 
-    if [ -f "$OFFLINE/bin/thisroot.sh" ]; then
-	source $OFFLINE/bin/thisroot.sh
-	echo '$ROOTSYS = '$ROOTSYS
-    else
-	echo "Could not find $OFFLINE/root/bin/thisroot.sh. ROOT probably not installed. Exiting"
-	return
-    fi
+  if [ -f "$OFFLINE/bin/thisroot.sh" ]; then
+    source $OFFLINE/bin/thisroot.sh
+    echo '$ROOTSYS = '$ROOTSYS
+  else
+    echo "Could not find $OFFLINE/root/bin/thisroot.sh. ROOT probably not installed. Exiting"
+    return
+  fi
 
-    ## we may need to add root to DYLD_LIBRARY_PATH
-    
-    unset DYLD_LIBRARY_PATH
-    export DYLD_LIBRARY_PATH=$ROOTSYS/lib
+  ## we may need to add root to DYLD_LIBRARY_PATH
+  
+  unset DYLD_LIBRARY_PATH
+  export DYLD_LIBRARY_PATH=$ROOTSYS/lib
 
-    ## define explicitly the compilers and the linker in accordance with root before running cmake
+  ## define explicitly the compilers and the linker in accordance with root before running cmake
 
-    export CC=`root-config --cc`
-    export CXX=`root-config --cxx`
-    export F77=`root-config --f77`
-    export LD=`root-config --ld`
+  export CC=`root-config --cc`
+  export CXX=`root-config --cxx`
+  export F77=`root-config --f77`
+  export LD=`root-config --ld`
 
-    ## ---> fortran compiler and envirsonment needed for geant3
+  ## ---> fortran compiler and envirsonment needed for geant3
 
-    unset ROOTBUILD
-    export ROOTBUILD=`root-config --f77`
+  unset ROOTBUILD
+  export ROOTBUILD=`root-config --f77`
 
-    unset PLATFORM
-    export PLATFORM=`root-config --arch`
-    echo '$PLATFORM = '$PLATFORM
+  unset PLATFORM
+  export PLATFORM=`root-config --arch`
+  echo '$PLATFORM = '$PLATFORM
 
-    ## ---> to be able to use PyROOT (still needed ????)
-    
-    export PYTHONPATH=$ROOTSYS/lib:$PYTHONPATH
+  ## ---> to be able to use PyROOT (still needed ????)
+  
+  export PYTHONPATH=$ROOTSYS/lib:$PYTHONPATH
 }
 
 # --------------------------------
@@ -495,73 +495,72 @@ function setup-root() {
 #}
 
 function setup-alice-env() {
-    ALICE_ENV="alice3.13.5"
-    TEST_PYTHON_VENV="$(which python)"
-    if [[ "${TEST_PYTHON_VENV}" == *"${ALICE_ENV}"* ]]; then
-	echo "Already using Python virtual env: ${ALICE_ENV}"
-    else
-	if [[ "${TEST_PYTHON_VENV}" == *".virtualenvs"* ]]; then
+  ALICE_ENV="alice3.13.5"
+  TEST_PYTHON_VENV="$(which python)"
+  if [[ "${TEST_PYTHON_VENV}" == *"${ALICE_ENV}"* ]]; then
+	  echo "Already using Python virtual env: ${ALICE_ENV}"
+  else
+	  if [[ "${TEST_PYTHON_VENV}" == *".virtualenvs"* ]]; then
 	    deactivate
-	fi
-	workon ${ALICE_ENV}
-	echo "Switching to Python virtual env: ${ALICE_ENV}"
-    fi
-    echo
-}    
-
+	  fi
+	  workon ${ALICE_ENV}
+	  echo "Switching to Python virtual env: ${ALICE_ENV}"
+  fi
+  echo
+}
 
 function setup-o2-xrootd() {
-    ## --> add xrootd compiled via alibuild to library and python path after go-o2 or go-o2sim
-    XROOTD_DIR=$(which xrootd-config | sed 's/bin\/xrootd-config//')
-    export LD_LIBRARY_PATH=${XROOTD_DIR}/lib:/Users/andry/alice/sw/osx_arm64/JAliEn-ROOT/latest/lib:${LD_LIBRARY_PATH}
-    export PYTHONPATH=${XROOTD_DIR}/lib/python3.13/site-packages:$PYTHONPATH
+  ## --> add xrootd compiled via alibuild to library and python path after go-o2 or go-o2sim
+  XROOTD_DIR=$(which xrootd-config | sed 's/bin\/xrootd-config//')
+  export LD_LIBRARY_PATH=${XROOTD_DIR}/lib:/Users/andry/alice/sw/osx_arm64/JAliEn-ROOT/latest/lib:${LD_LIBRARY_PATH}
+  export PYTHONPATH=${XROOTD_DIR}/lib/python3.13/site-packages:$PYTHONPATH
 }
 
 function go-o2() {
-    setup-alice-env
-    unset ALIBUILD_WORK_DIR
-    export ALIBUILD_WORK_DIR=/Users/andry/alice/sw
-    #cd /Users/andry/alice
-    unset MODULES_SHELL
-    export MODULES_SHELL=zsh
-    alienv enter O2Physics/latest --work-dir ${ALIBUILD_WORK_DIR}
+  setup-alice-env
+  unset ALIBUILD_WORK_DIR
+  export ALIBUILD_WORK_DIR=/Users/andry/alice/sw
+  #cd /Users/andry/alice
+  unset MODULES_SHELL
+  export MODULES_SHELL=zsh
+  alienv enter O2Physics/latest --work-dir ${ALIBUILD_WORK_DIR}
 }
 
 function go-o2-ninja() {
-    setup-alice-env
-    unset ALIBUILD_WORK_DIR
-    export ALIBUILD_WORK_DIR=/Users/andry/alice/sw
-    #cd /Users/andry/alice
-    unset MODULES_SHELL
-    export MODULES_SHELL=zsh
-    alienv enter O2Physics/latest --work-dir ${ALIBUILD_WORK_DIR} ninja/latest
-#    cd ~/alice/sw/BUILD/O2Physics-latest/O2Physics
+  setup-alice-env
+  unset ALIBUILD_WORK_DIR
+  export ALIBUILD_WORK_DIR=/Users/andry/alice/sw
+  #cd /Users/andry/alice
+  unset MODULES_SHELL
+  export MODULES_SHELL=zsh
+  alienv enter O2Physics/latest --work-dir ${ALIBUILD_WORK_DIR} ninja/latest
+# cd ~/alice/sw/BUILD/O2Physics-latest/O2Physics
 }
 
 
 function go-o2-rc() {
-    setup-alice-env
-    unset ALIBUILD_WORK_DIR
-    export ALIBUILD_WORK_DIR=/Users/andry/alice/sw
-    unset MODULES_SHELL
-    export MODULES_SHELL=zsh
-    alienv enter O2Physics/latest-ar-daily-20250909-0000-o2 --work-dir ${ALIBUILD_WORK_DIR}  ## comment to use the latest rc
+  setup-alice-env
+  unset ALIBUILD_WORK_DIR
+  export ALIBUILD_WORK_DIR=/Users/andry/alice/sw
+  unset MODULES_SHELL
+  export MODULES_SHELL=zsh
+  alienv enter O2Physics/latest-ar-daily-20250909-0000-o2 --work-dir ${ALIBUILD_WORK_DIR}  ## comment to use the latest rc
 }
 
 
 function go-o2sim() {
-    setup-alice-env
-    unset ALIBUILD_WORK_DIR
-    export ALIBUILD_WORK_DIR=/Users/andry/alice/sw
-    unset MODULES_SHELL
-    export MODULES_SHELL=zsh
-    alienv enter O2Physics/latest,EVTGEN/latest-o2,O2DPG/latest,AEGIS/latest-o2 --work-dir ${ALIBUILD_WORK_DIR}
+  setup-alice-env
+  unset ALIBUILD_WORK_DIR
+  export ALIBUILD_WORK_DIR=/Users/andry/alice/sw
+  unset MODULES_SHELL
+  export MODULES_SHELL=zsh
+  alienv enter O2Physics/latest,EVTGEN/latest-o2,O2DPG/latest,AEGIS/latest-o2 --work-dir ${ALIBUILD_WORK_DIR}
 }
 
 function grid-tokens-export() {
-    alien.py pwd ## check that GRID tokens are already initialised
-    ## --> after a successful "alien.py pwd"
-    export $(python3 -c 'from alienpy.global_vars import *; print(f"JALIEN_TOKEN_CERT={CERT_NAMES.token_cert} JALIEN_TOKEN_KEY={CERT_NAMES.token_key}");')
+  alien.py pwd ## check that GRID tokens are already initialised
+  ## --> after a successful "alien.py pwd"
+  export $(python3 -c 'from alienpy.global_vars import *; print(f"JALIEN_TOKEN_CERT={CERT_NAMES.token_cert} JALIEN_TOKEN_KEY={CERT_NAMES.token_key}");')
 }
 
 
@@ -569,30 +568,28 @@ function grid-tokens-export() {
 
 function setup-identities() {
 
-    ## ssh-add: the -K and -A flags are deprecated and have been replaced
-    ##   by the --apple-use-keychain and --apple-load-keychain
-    ##   flags, respectively.
-    
-    ## based on RSA encryption
-    
-    nIdRSA=`ssh-add -l | grep "RSA" | wc -l`
-    if [ "$nIdRSA" -ne 3 ] 
-    then
-	ssh-add --apple-use-keychain ~/.ssh/cern_id_rsa
-	ssh-add --apple-use-keychain ~/.ssh/new_github_id_rsa
-	ssh-add --apple-use-keychain ~/.ssh/gitlab_in2p3_id_rsa
-    fi
+  ## ssh-add: the -K and -A flags are deprecated and have been replaced
+  ##   by the --apple-use-keychain and --apple-load-keychain
+  ##   flags, respectively.
+  
+  ## based on RSA encryption
+  
+  nIdRSA=`ssh-add -l | grep "RSA" | wc -l`
+  if [ "$nIdRSA" -ne 3 ]; then
+    ssh-add --apple-use-keychain ~/.ssh/cern_id_rsa
+    ssh-add --apple-use-keychain ~/.ssh/new_github_id_rsa
+    ssh-add --apple-use-keychain ~/.ssh/gitlab_in2p3_id_rsa
+  fi
 
-    ## based on ED25519 encryption
-    
-    nIdED=`ssh-add -l | grep "ED25519" | wc -l`
-    if [ "$nIdED" -ne 1 ] 
-    then
-	ssh-add --apple-use-keychain ~/.ssh/not_affiliated_gitlab_id_ed25519
-    fi
+  ## based on ED25519 encryption
+  
+  nIdED=`ssh-add -l | grep "ED25519" | wc -l`
+  if [ "$nIdED" -ne 1 ]; then
+    ssh-add --apple-use-keychain ~/.ssh/not_affiliated_gitlab_id_ed25519
+  fi
 
-#    echo "Private key identities loaded in ssh-agent :"
-#    ssh-add -l
+# echo "Private key identities loaded in ssh-agent :"
+# ssh-add -l
 }
 
 setup-identities
