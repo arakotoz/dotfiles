@@ -427,7 +427,7 @@ function setup-root() {
     echo "Setting ROOT soft with ** requested ** $ROOT_VERSION version"
   else
     #exportlh /Users/andry/Library/CloudStorage/ProtonDrive-andrymalala@proton.me-folder ROOT_VERSION=master
-    export ROOT_VERSION=v6-36-04
+    export ROOT_VERSION=v6-36-06
     echo "Setting ROOT soft with default $ROOT_VERSION version"
   fi
 
