@@ -99,7 +99,7 @@ source $ZSH/oh-my-zsh.sh
 
 ### using brew (instead of MacPorts)
 #
-# 
+#
 ### Homebrew directories :
 #
 # /opt/homebrew/
@@ -143,7 +143,7 @@ function fresh-shell() {
   export PATH=$PATH:"/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
   ## ---> Generic library
-  
+
   LD_LIBRARY_PATH=$(brew --prefix)/lib:/usr/local/lib:/usr/lib
   export LD_LIBRARY_PATH
 
@@ -155,7 +155,6 @@ function fresh-shell() {
   BOOST_ROOT=$(brew --prefix boost)
   export BOOST_INCLUDEDIR=${BOOST_ROOT}/include/boost/
   export BOOST_LIBRARYDIR=${BOOST_ROOT}/lib/
-
 
   ## ---> used to manage virtual environments in python (installed via homebrew)
 
@@ -189,10 +188,14 @@ function fresh-shell() {
 
 fresh-shell
 
-
 ##-------------------------------------------- Utilities ------------#
 
 function setup-utilities() {
+
+  ## ---> avoid Neovide temporary records of early startup messages
+  ## because they are checked by noice.nvim who gets upset
+
+  alias neovide="neovide --no-startup-message-capture"
 
   ## ---> set path to gs for gimp
 
@@ -228,7 +231,7 @@ function setup-old-openssl() {
 
 function setup-php() {
   ## ---> to start php now and restart at login
-  brew services start php 
+  brew services start php
   # Or, if you don't want/need a background service you can just run:
   # /usr/local/opt/php/sbin/php-fpm --nodaemonize
 }
@@ -241,8 +244,8 @@ function setup-php() {
 ##----------------------------------------------
 
 if [[ -z $DISPLAY && -z $SSH_CONNECTION ]]; then
-#    disp_no=($( ps -awx | grep -F X11.app | awk '{print $NF}' | grep -e ":[0-9]"  ))
-  disp_no=($( ps -awx | grep -F XQuartz.app | awk '{print $NF}' | grep -e ":[0-9]"  ))
+  #    disp_no=($( ps -awx | grep -F X11.app | awk '{print $NF}' | grep -e ":[0-9]"  ))
+  disp_no=($(ps -awx | grep -F XQuartz.app | awk '{print $NF}' | grep -e ":[0-9]"))
   if [[ -n $disp_no ]]; then
     export DISPLAY=${disp_no}.0
   else
@@ -263,7 +266,7 @@ function setup-alias() {
 
   export TERM=xterm-256color
 
-  ## customize BSD 'ls' colors 
+  ## customize BSD 'ls' colors
 
   # export LSCOLORS=exGxfxdaCxdadaCxcxeCed # custom colors
 
@@ -314,7 +317,7 @@ function setup-alias() {
   ## ---------------------------
   ## tunnels vers intra ou extra
   ## ---------------------------
-  
+
   ## not working any more
   # alias to-intra='sudo openfortivpn 132.167.192.58:443 --trusted-cert 7b82074aedb7e7ecaa4e4d4957ee65c08655e684fbdd1eca51d115e43da6b257 --pppd-use-peerdns=1 -u ar218432'
   # alias to-intra='sudo openfortivpn 132.167.192.58:443 --trusted-cert 479b69e94d5af7e87d2330cf3d8899c03d9ee48146ca08262a759476308cc015 --pppd-use-peerdns=1 -u ar218432'
@@ -357,7 +360,7 @@ setup-alias
 
 #--------------------------------
 ## CMake
-## BOOST 
+## BOOST
 ## CLHEP (needed by GEANT 4)
 ## fftw (added to ROOT)
 ## GSL (needed to build MATHMORE lib of ROOT)
@@ -388,7 +391,6 @@ setup-alias
 
 #-------------------------------------------- ONLY ROOT ----------------#
 
-
 function setup-fidle-env() {
   TEST_PYTHON_VENV="$(which python)"
   VENV_PYTHON_VERSION=3.12.11
@@ -396,20 +398,20 @@ function setup-fidle-env() {
     echo "Already using Python virtual env: fidle-${VENV_PYTHON_VERSION}"
   else
     if [[ "${TEST_PYTHON_VENV}" == *".virtualenvs"* ]]; then
-        deactivate
+      deactivate
     fi
     workon fidle-${VENV_PYTHON_VERSION}
-      echo "Switching to Python virtual env: fidle-${VENV_PYTHON_VERSION}"
+    echo "Switching to Python virtual env: fidle-${VENV_PYTHON_VERSION}"
   fi
   echo
-}    
+}
 
 function setup-xrootd() {
   setup-fidle-env
   ## --> add manually compiled xrootd python bindings to path
   export XROOTD_DIR=/usr/local/xrootd
   export PATH=${XROOTD_DIR}/bin:${PATH}
-  export LD_LIBRARY_PATH=${XROOTD_DIR}/lib:${LD_LIBRARY_PATH}    
+  export LD_LIBRARY_PATH=${XROOTD_DIR}/lib:${LD_LIBRARY_PATH}
   export PYTHONPATH=${XROOTD_DIR}/lib/python3.12/site-packages:$PYTHONPATH
 }
 
@@ -421,7 +423,7 @@ function setup-root() {
   export PATH
 
   ## ---> choose version
-  
+
   if [ -n "$1" ]; then
     export ROOT_VERSION=$1
     echo "Setting ROOT soft with ** requested ** $ROOT_VERSION version"
@@ -443,7 +445,7 @@ function setup-root() {
   fi
 
   ## ---> set GEANT 4 environment
-  
+
   # source /usr/local/opt/geant/bin/geant4.sh
 
   ## ---> add root binaries to path
@@ -459,28 +461,28 @@ function setup-root() {
   fi
 
   ## we may need to add root to DYLD_LIBRARY_PATH
-  
+
   unset DYLD_LIBRARY_PATH
   export DYLD_LIBRARY_PATH=$ROOTSYS/lib
 
   ## define explicitly the compilers and the linker in accordance with root before running cmake
 
-  export CC=`root-config --cc`
-  export CXX=`root-config --cxx`
-  export F77=`root-config --f77`
-  export LD=`root-config --ld`
+  export CC=$(root-config --cc)
+  export CXX=$(root-config --cxx)
+  export F77=$(root-config --f77)
+  export LD=$(root-config --ld)
 
   ## ---> fortran compiler and envirsonment needed for geant3
 
   unset ROOTBUILD
-  export ROOTBUILD=`root-config --f77`
+  export ROOTBUILD=$(root-config --f77)
 
   unset PLATFORM
-  export PLATFORM=`root-config --arch`
+  export PLATFORM=$(root-config --arch)
   echo '$PLATFORM = '$PLATFORM
 
   ## ---> to be able to use PyROOT (still needed ????)
-  
+
   export PYTHONPATH=$ROOTSYS/lib:$PYTHONPATH
 }
 
@@ -490,7 +492,7 @@ function setup-root() {
 
 #function setup-o2() {
 #    export ALIBUILD_WORK_DIR="$HOME/alice/sw"
-#    eval "`alienv shell-helper`"    
+#    eval "`alienv shell-helper`"
 #    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH_modshare}:/usr/local/lib:/usr/lib
 #}
 
@@ -498,13 +500,13 @@ function setup-alice-env() {
   ALICE_ENV="alice3.13.5"
   TEST_PYTHON_VENV="$(which python)"
   if [[ "${TEST_PYTHON_VENV}" == *"${ALICE_ENV}"* ]]; then
-	  echo "Already using Python virtual env: ${ALICE_ENV}"
+    echo "Already using Python virtual env: ${ALICE_ENV}"
   else
-	  if [[ "${TEST_PYTHON_VENV}" == *".virtualenvs"* ]]; then
-	    deactivate
-	  fi
-	  workon ${ALICE_ENV}
-	  echo "Switching to Python virtual env: ${ALICE_ENV}"
+    if [[ "${TEST_PYTHON_VENV}" == *".virtualenvs"* ]]; then
+      deactivate
+    fi
+    workon ${ALICE_ENV}
+    echo "Switching to Python virtual env: ${ALICE_ENV}"
   fi
   echo
 }
@@ -534,9 +536,8 @@ function go-o2-ninja() {
   unset MODULES_SHELL
   export MODULES_SHELL=zsh
   alienv enter O2Physics/latest --work-dir ${ALIBUILD_WORK_DIR} ninja/latest
-# cd ~/alice/sw/BUILD/O2Physics-latest/O2Physics
+  # cd ~/alice/sw/BUILD/O2Physics-latest/O2Physics
 }
-
 
 function go-o2-rc() {
   setup-alice-env
@@ -544,10 +545,9 @@ function go-o2-rc() {
   export ALIBUILD_WORK_DIR=/Users/andry/alice/sw
   unset MODULES_SHELL
   export MODULES_SHELL=zsh
-  alienv enter O2Physics/latest-ar-daily-20260106-0000-o2 --work-dir ${ALIBUILD_WORK_DIR}  ## comment to use the latest rc
+  alienv enter O2Physics/latest-ar-daily-20260106-0000-o2 --work-dir ${ALIBUILD_WORK_DIR} ## comment to use the latest rc
   # alienv enter O2Physics/latest-ar-daily-20260204-0000-o2 --work-dir ${ALIBUILD_WORK_DIR}  ## comment to use the latest rc
 }
-
 
 function go-o2sim() {
   setup-alice-env
@@ -564,7 +564,6 @@ function grid-tokens-export() {
   export $(python3 -c 'from alienpy.global_vars import *; print(f"JALIEN_TOKEN_CERT={CERT_NAMES.token_cert} JALIEN_TOKEN_KEY={CERT_NAMES.token_key}");')
 }
 
-
 # -------------------------------- add identities
 
 function setup-identities() {
@@ -572,10 +571,10 @@ function setup-identities() {
   ## ssh-add: the -K and -A flags are deprecated and have been replaced
   ##   by the --apple-use-keychain and --apple-load-keychain
   ##   flags, respectively.
-  
+
   ## based on RSA encryption
-  
-  nIdRSA=`ssh-add -l | grep "RSA" | wc -l`
+
+  nIdRSA=$(ssh-add -l | grep "RSA" | wc -l)
   if [ "$nIdRSA" -ne 3 ]; then
     ssh-add --apple-use-keychain ~/.ssh/cern_id_rsa
     ssh-add --apple-use-keychain ~/.ssh/new_github_id_rsa
@@ -583,14 +582,14 @@ function setup-identities() {
   fi
 
   ## based on ED25519 encryption
-  
-  nIdED=`ssh-add -l | grep "ED25519" | wc -l`
+
+  nIdED=$(ssh-add -l | grep "ED25519" | wc -l)
   if [ "$nIdED" -ne 1 ]; then
     ssh-add --apple-use-keychain ~/.ssh/not_affiliated_gitlab_id_ed25519
   fi
 
-# echo "Private key identities loaded in ssh-agent :"
-# ssh-add -l
+  # echo "Private key identities loaded in ssh-agent :"
+  # ssh-add -l
 }
 
 setup-identities
@@ -624,6 +623,3 @@ source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-
-
